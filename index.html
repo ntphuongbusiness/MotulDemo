@@ -192,6 +192,16 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 #tc-li { position:relative; margin:-24px -28px; padding:0 28px 24px; background:var(--gray-50); min-height:100%; }
 .fs { margin-bottom:24px; }
 .fs-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--gray-400); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--gray-100); }
+/* Page range bar */
+.page-range-bar { display:flex; align-items:center; gap:10px; background:#F8F9FA; border:1px solid #E5E5E5; border-radius:6px; padding:10px 16px; margin-bottom:20px; font-size:12px; }
+.page-range-bar .pr-label { color:#888; flex-shrink:0; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; font-size:10px; }
+.page-range-bar .pr-inputs { display:flex; align-items:center; gap:8px; }
+.page-range-bar .pr-input-wrap { display:flex; align-items:center; gap:4px; font-size:12px; color:#666; }
+.page-range-bar .pr-input-wrap input { width:48px; padding:4px 8px; border:1px solid #E5E5E5; border-radius:3px; font-size:12px; text-align:center; outline:none; }
+.page-range-bar .pr-input-wrap input:focus { border-color:#E30613; }
+.page-range-bar .pr-sep { color:#999; }
+.btn-reextract { display:flex; align-items:center; gap:5px; padding:5px 12px; background:#fff; border:1px solid #E5E5E5; border-radius:4px; font-size:12px; font-weight:600; color:#444; cursor:pointer; margin-left:4px; }
+.btn-reextract:hover { border-color:#E30613; color:#E30613; }
 .fg3 { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
 .fg3 label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.4px; color:var(--gray-500,#888); }
 .fg3 label .req { color:var(--red); }
@@ -549,6 +559,27 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 
               <!-- ORDER HEADER TAB -->
               <div id="tc-hdr">
+                <div class="page-range-bar">
+                  <span class="pr-label">Pages</span>
+                  <div class="pr-inputs">
+                    <div class="pr-input-wrap">
+                      <span>Start</span>
+                      <input type="number" id="pr-start" min="1" value="1">
+                    </div>
+                    <span class="pr-sep">→</span>
+                    <div class="pr-input-wrap">
+                      <span>End</span>
+                      <input type="number" id="pr-end" min="1" value="4">
+                    </div>
+                    <button class="btn-reextract" onclick="reExtract()">
+                      <svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M11 6.5A4.5 4.5 0 1 1 8 2.3"/>
+                        <path d="M8 1v3h3"/>
+                      </svg>
+                      Re-extract
+                    </button>
+                  </div>
+                </div>
                 <div class="fs">
                   <div class="fs-title">Order Header</div>
                   <div class="frow2 c2">
@@ -1033,6 +1064,11 @@ function _loadReview(id){
   // siblings = all POs in same file (declare first, used below)
   const siblings = PO_DATA.filter(x => x.file === r.file);
   const posInFile = siblings.findIndex(x => x.id === id);
+  const startPage = siblings
+    .slice(0, posInFile)
+    .reduce((total, po) => total + (Number(po.pages) || 0), 0) + 1;
+  const endPage = startPage + (Number(r.pages) || 1) - 1;
+  updatePageRange(startPage, endPage);
 
   // breadcrumb: show seq info if multi-PO file
   const bcSeq = document.getElementById('bc-seq');
@@ -1541,6 +1577,38 @@ function jumpToPO() {
   const panel = document.querySelector('.form-body');
   panel.style.opacity = '0.4';
   setTimeout(() => { _loadReview(target.id); switchTab('hdr'); panel.style.opacity = '1'; }, 180);
+}
+
+function reExtract() {
+  const start = parseInt(document.getElementById('pr-start').value);
+  const end   = parseInt(document.getElementById('pr-end').value);
+  const btn   = document.querySelector('.btn-reextract');
+
+  if(!start || !end || start > end) {
+    alert('Invalid page range: Start must be less than or equal to End.');
+    return;
+  }
+
+  // Save original button content
+  const originalHTML = btn.innerHTML;
+  btn.textContent = 'Extracting...';
+  btn.disabled = true;
+
+  // TODO: Replace this timeout with your actual API call
+  setTimeout(() => {
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+    alert(`Re-extraction complete: Pages ${start}–${end} re-processed.`);
+  }, 1800);
+}
+
+// Call this function when loading a PO to set the correct page range
+// Example: updatePageRange(1, 4) to set Start=1, End=4
+function updatePageRange(start, end) {
+  const s = document.getElementById('pr-start');
+  const e = document.getElementById('pr-end');
+  if(s) s.value = start;
+  if(e) e.value = end;
 }
 
 // INIT
