@@ -27,6 +27,9 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .feat { display:flex; align-items:center; gap:10px; margin-bottom:12px; font-size:13px; color:rgba(255,255,255,0.75); }
 .feat-ic { width:18px; height:18px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .login-right { background:#fff; width:380px; flex-shrink:0; padding:48px 40px; display:flex; flex-direction:column; justify-content:center; }
+.lang-sw { display:flex; gap:4px; align-self:flex-end; margin-bottom:32px; }
+.lang-sw button { padding:4px 10px; border:1px solid var(--gray-200); background:#fff; font-size:11px; cursor:pointer; border-radius:3px; color:var(--gray-600); }
+.lang-sw button.on { background:var(--dark); color:#fff; border-color:var(--dark); }
 .login-right .ey { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--red); margin-bottom:8px; }
 .login-right h2 { font-size:20px; font-weight:700; margin-bottom:6px; }
 .login-right p { font-size:12px; color:var(--gray-400); margin-bottom:26px; }
@@ -46,6 +49,9 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .app-header .brand { display:flex; align-items:center; gap:8px; flex:1; }
 .app-header .region { color:rgba(255,255,255,0.55); font-size:12px; font-weight:300; letter-spacing:2px; }
 .header-right { display:flex; align-items:center; gap:10px; }
+.lt { display:flex; gap:0; border:1px solid rgba(255,255,255,0.2); border-radius:3px; overflow:hidden; }
+.lt button { padding:4px 10px; border:none; background:transparent; color:rgba(255,255,255,0.65); font-size:11px; cursor:pointer; }
+.lt button.on { background:rgba(255,255,255,0.15); color:#fff; }
 /* status badge in header */
 .hdr-status { padding:4px 12px; border-radius:3px; font-size:11px; font-weight:700; letter-spacing:0.5px; cursor:default; }
 .hdr-status.pending { border:1.5px solid #d4a017; color:#856404; background:#fff; }
@@ -112,11 +118,10 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .fi input, .fi select { padding:7px 10px; border:1px solid var(--gray-200); border-radius:3px; font-size:12px; outline:none; background:#fff; height:32px; }
 .fi input:focus, .fi select:focus { border-color:var(--red); }
 .fi .srch input { height:32px; padding-left:32px; box-sizing:border-box; }
-.tw { background:#fff; border:1px solid var(--gray-200); border-radius:6px; overflow-x:auto; overflow-y:hidden; }
-.dt { width:100%; min-width:1180px; border-collapse:collapse; }
+.tw { background:#fff; border:1px solid var(--gray-200); border-radius:6px; overflow:hidden; }
+.dt { width:100%; border-collapse:collapse; }
 .dt thead th { background:var(--gray-50); border-bottom:1px solid var(--gray-200); padding:9px 12px; text-align:left; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:var(--gray-400); white-space:nowrap; }
 .dt tbody td { padding:10px 12px; border-bottom:1px solid var(--gray-100); font-size:12px; color:var(--gray-800); vertical-align:middle; }
-.dt th:nth-child(6), .dt td:nth-child(6) { min-width:180px; white-space:nowrap; }
 .dt tbody tr:last-child td { border-bottom:none; }
 .dt tbody tr:hover { background:var(--gray-50); }
 .flink { color:var(--red); font-weight:500; cursor:pointer; text-decoration:none; }
@@ -187,21 +192,9 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .btn-prev:disabled { opacity:0.35; cursor:default; }
 .btn-continue { display:flex; align-items:center; gap:5px; padding:7px 16px; background:var(--red); border:none; color:#fff; font-size:12px; font-weight:600; cursor:pointer; border-radius:4px; }
 .btn-continue:hover { background:#c00; }
-.form-body { padding:24px 28px; flex:1; overflow-y:auto; background:var(--gray-50); transition:opacity 0.18s ease; }
-#tc-hdr { margin:-24px -28px; padding:24px 28px; background:#fff; min-height:100%; }
-#tc-li { position:relative; margin:-24px -28px; padding:0 28px 24px; background:var(--gray-50); min-height:100%; }
+.form-body { padding:24px 28px; flex:1; overflow-y:auto; transition:opacity 0.18s ease; }
 .fs { margin-bottom:24px; }
 .fs-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--gray-400); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--gray-100); }
-/* Page range bar */
-.page-range-bar { display:flex; align-items:center; gap:10px; background:#F8F9FA; border:1px solid #E5E5E5; border-radius:6px; padding:10px 16px; margin-bottom:20px; font-size:12px; }
-.page-range-bar .pr-label { color:#888; flex-shrink:0; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; font-size:10px; }
-.page-range-bar .pr-inputs { display:flex; align-items:center; gap:8px; }
-.page-range-bar .pr-input-wrap { display:flex; align-items:center; gap:4px; font-size:12px; color:#666; }
-.page-range-bar .pr-input-wrap input { width:48px; padding:4px 8px; border:1px solid #E5E5E5; border-radius:3px; font-size:12px; text-align:center; outline:none; }
-.page-range-bar .pr-input-wrap input:focus { border-color:#E30613; }
-.page-range-bar .pr-sep { color:#999; }
-.btn-reextract { display:flex; align-items:center; gap:5px; padding:5px 12px; background:#fff; border:1px solid #E5E5E5; border-radius:4px; font-size:12px; font-weight:600; color:#444; cursor:pointer; margin-left:4px; }
-.btn-reextract:hover { border-color:#E30613; color:#E30613; }
 .fg3 { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
 .fg3 label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.4px; color:var(--gray-500,#888); }
 .fg3 label .req { color:var(--red); }
@@ -218,14 +211,13 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .inp-ic .ic:hover { color:var(--red); }
 
 /* LINE ITEMS */
-.li-table { width:100%; border:1px solid var(--gray-200); border-collapse:collapse; margin-bottom:20px; font-size:12px; background:#fff; }
-.li-table thead th { background:var(--gray-50); border-bottom:1px solid var(--gray-200); padding:9px 10px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--gray-400); white-space:nowrap; }
-.li-table tbody td { border-bottom:1px solid var(--gray-100); padding:8px 10px; vertical-align:middle; }
+.li-table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:12px; }
+.li-table thead th { background:var(--gray-50); border-bottom:2px solid var(--gray-200); border-right:1px solid var(--gray-200); padding:9px 10px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--gray-400); white-space:nowrap; }
+.li-table tbody td { border-bottom:1px solid var(--gray-100); border-right:1px solid var(--gray-100); padding:8px 10px; vertical-align:middle; }
 .li-table tbody tr:hover { background:var(--gray-50); }
 .li-table input, .li-table select { width:100%; padding:5px 8px; border:1px solid var(--gray-200); border-radius:3px; font-size:11px; outline:none; background:#fff; }
 .li-table input:focus, .li-table select:focus { border-color:var(--red); }
-.pg-hdr { background:var(--gray-50); border:none; border-radius:0; padding:7px 0; margin-bottom:3px; margin-top:20px; display:flex; align-items:center; gap:5px; }
-#tc-li .pg-hdr { margin-top:0; }
+.pg-hdr { background:var(--gray-50); border:1px solid var(--gray-200); border-radius:4px; padding:7px 14px; margin-bottom:10px; margin-top:20px; display:flex; align-items:center; gap:8px; }
 .pg-hdr:first-child { margin-top:0; }
 .pg-hdr span { font-size:11px; font-weight:600; color:var(--gray-600); }
 .pg-hdr small { font-size:10px; color:var(--gray-400); font-weight:400; }
@@ -270,7 +262,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .toast-x { margin-left:auto; background:none; border:none; cursor:pointer; color:var(--gray-400); font-size:16px; }
 
 /* Expand/collapse multi-PO rows */
-.expand-btn { background:none; border:none; cursor:pointer; color:#8f8f8f; font-size:10px; font-weight:600; padding:1px 6px; border-radius:3px; display:inline-flex; align-items:center; gap:3px; margin-left:6px; }
+.expand-btn { background:none; border:none; cursor:pointer; color:#6d28d9; font-size:10px; font-weight:600; padding:1px 6px; border-radius:3px; display:inline-flex; align-items:center; gap:3px; margin-left:6px; }
 .expand-btn:hover { background:var(--gray-100); }
 .child-row { display:none; }
 .child-row.show { display:table-row; }
@@ -278,22 +270,36 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 /* Reference row highlight */
 .li-table tr.ref-unit td { background:#EEF2FF !important; }
 .li-table tr.ref-date td { background:#F0FDF4 !important; }
+.li-table tr.ref-shipto td { background:#EFF6FF !important; }
+.li-table tr.ref-shipto .shipto-sel { border-color:#3b82f6 !important; box-shadow:0 0 0 2px rgba(59,130,246,0.2); }
 .li-table tr.ref-unit .unit-sel { border-color:#6366f1 !important; box-shadow:0 0 0 2px rgba(99,102,241,0.2); }
 .li-table tr.ref-date .date-inp { border-color:#22c55e !important; box-shadow:0 0 0 2px rgba(34,197,94,0.2); }
-.ata-btn { background:var(--gray-100); border:1px solid var(--gray-300); cursor:pointer; color:#111; font-size:11px; font-weight:600; padding:4px 8px; border-radius:3px; white-space:nowrap; display:inline-flex; align-items:center; align-self:center; gap:3px; transition:all 0.15s; }
-.ata-btn.active { border-color:var(--gray-300); color:#111; background:var(--gray-100); }
+.ata-btn { background:none; border:1px solid var(--gray-300); cursor:pointer; color:var(--gray-400); font-size:10px; font-weight:600; padding:2px 7px; border-radius:3px; white-space:nowrap; display:inline-flex; align-items:center; gap:2px; transition:all 0.15s; }
+.ata-btn.active { border-color:#6d28d9; color:#6d28d9; background:#ede9fe; }
+
+/* Page range bar */
+.page-range-bar { display:flex; align-items:center; gap:10px; background:#F8F9FA; border:1px solid var(--gray-200); border-radius:6px; padding:10px 16px; margin-bottom:20px; font-size:12px; }
+.page-range-bar .pr-label { color:var(--gray-500,#888); display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.page-range-bar .pr-label svg { color:var(--gray-400); }
+.page-range-bar .pr-inputs { display:flex; align-items:center; gap:8px; }
+.page-range-bar .pr-input-wrap { display:flex; align-items:center; gap:4px; font-size:12px; color:var(--gray-600); }
+.page-range-bar .pr-input-wrap input { width:48px; padding:4px 8px; border:1px solid var(--gray-200); border-radius:3px; font-size:12px; text-align:center; outline:none; }
+.page-range-bar .pr-input-wrap input:focus { border-color:var(--red); }
+.page-range-bar .pr-sep { color:var(--gray-400); }
+.btn-reextract { display:flex; align-items:center; gap:5px; padding:5px 12px; background:#fff; border:1px solid var(--gray-200); border-radius:4px; font-size:12px; font-weight:600; color:var(--gray-700,#444); cursor:pointer; margin-left:4px; }
+.btn-reextract:hover { border-color:var(--red); color:var(--red); }
+.pr-note { font-size:11px; color:var(--gray-400); margin-left:auto; }
 
 /* Apply-to-all action bar */
 .ata-bar { display:none; justify-content:flex-end; align-items:center; gap:8px; margin-bottom:10px; }
-.ata-bar.show { position:absolute; top:3px; right:28px; display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; white-space:nowrap; margin:0; }
+.ata-bar.show { display:flex; }
 .ata-bar-item { display:flex; align-items:center; gap:6px; }
 .ata-bar-label { font-size:11px; color:var(--gray-600); }
 .ata-bar-val { font-size:11px; font-weight:700; color:var(--gray-800); background:var(--gray-100); padding:2px 8px; border-radius:3px; }
 
 /* Apply-to-all dropdown */
 .ata-wrap { position:relative; display:inline-flex; align-items:center; gap:4px; }
-.li-table thead .ata-wrap { top:4px; }
-.ata-btn:hover { border-color:var(--gray-400); color:#111; background:var(--gray-200); }
+.ata-btn:hover { border-color:#6d28d9; color:#6d28d9; background:#ede9fe; }
 .ata-menu { position:absolute; top:calc(100% + 4px); left:0; background:#fff; border:1px solid var(--gray-200); border-radius:6px; box-shadow:0 4px 16px rgba(0,0,0,0.12); z-index:400; min-width:190px; padding:4px 0; display:none; }
 .ata-menu.show { display:block; }
 .ata-menu-item { display:flex; align-items:flex-start; gap:8px; padding:9px 14px; cursor:pointer; font-size:12px; color:var(--gray-800); line-height:1.4; }
@@ -302,6 +308,20 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .ata-menu-item .ata-scope { font-weight:600; font-size:12px; }
 .ata-menu-item .ata-desc { font-size:11px; color:var(--gray-400); display:block; }
 .ata-divider { border-top:1px solid var(--gray-100); margin:3px 0; }
+
+/* Custom selection in confirm dialog */
+.custom-sel-input { width:100%; padding:8px 12px; border:1px solid var(--gray-200); border-radius:4px; font-size:13px; outline:none; margin-top:6px; font-family:monospace; letter-spacing:0.3px; }
+.custom-sel-input:focus { border-color:var(--red); }
+.custom-sel-input.error { border-color:#dc3545; }
+.custom-sel-hint { font-size:11px; color:var(--gray-400); margin-top:5px; }
+.custom-sel-preview { max-height:160px; overflow-y:auto; border:1px solid var(--gray-200); border-radius:4px; margin-top:10px; }
+.custom-sel-preview-item { display:flex; align-items:center; gap:10px; padding:7px 12px; border-bottom:1px solid var(--gray-100); font-size:12px; }
+.custom-sel-preview-item:last-child { border-bottom:none; }
+.custom-sel-preview-item .seq-b { background:#ede9fe; color:#6d28d9; font-weight:700; min-width:22px; }
+.custom-sel-preview-item .po-num { color:var(--gray-800); font-weight:500; flex:1; }
+.custom-sel-preview-item .po-status { font-size:11px; }
+.custom-sel-count { font-size:11px; color:var(--gray-600); margin-top:8px; text-align:right; font-weight:500; }
+.custom-sel-error { font-size:11px; color:#dc3545; margin-top:5px; }
 
 /* Confirm modal */
 .confirm-modal { background:#fff; border-radius:8px; width:400px; padding:24px; box-shadow:0 8px 40px rgba(0,0,0,0.18); }
@@ -345,6 +365,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
     <div class="feat"><div class="feat-ic"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1,5 3.5,7.5 9,2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>One-click SAP submission</div>
   </div>
   <div class="login-right">
+    <div class="lang-sw"><button class="on">EN</button><button>日本語</button></div>
     <div class="ey">MOTUL AI HUB</div>
     <h2>Sign in to MOTUL AI Hub</h2>
     <p>Enter your Motul credentials to continue</p>
@@ -360,6 +381,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
   <header class="app-header">
     <div class="brand"><span class="motul-badge">MOTUL</span><span class="region">APAC</span></div>
     <div class="header-right">
+      <div class="lt"><button class="on">EN</button><button>日本語</button></div>
       <!-- Status badge shown in header when on review screen -->
       <span id="hdr-status-badge" style="display:none;"></span>
       <div class="user-chip" onclick="toggleDD()">
@@ -532,7 +554,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
                 </div>
               </div>
             </div>
-            <div class="pdf-nav"><button>‹</button><span>Page 1 / 1</span><button>›</button></div>
+            <div class="pdf-nav"><button>‹</button><span>Page 1 / 4</span><button>›</button></div>
           </div>
 
           <!-- FORM PANEL -->
@@ -559,37 +581,36 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 
               <!-- ORDER HEADER TAB -->
               <div id="tc-hdr">
+                <!-- Page Range Bar -->
                 <div class="page-range-bar">
                   <span class="pr-label">Pages</span>
                   <div class="pr-inputs">
                     <div class="pr-input-wrap">
                       <span>Start</span>
-                      <input type="number" id="pr-start" min="1" value="1">
+                      <input type="number" id="pr-start" min="1" value="1" title="Start page">
                     </div>
                     <span class="pr-sep">→</span>
                     <div class="pr-input-wrap">
                       <span>End</span>
-                      <input type="number" id="pr-end" min="1" value="4">
+                      <input type="number" id="pr-end" min="1" value="4" title="End page">
                     </div>
                     <button class="btn-reextract" onclick="reExtract()">
-                      <svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M11 6.5A4.5 4.5 0 1 1 8 2.3"/>
-                        <path d="M8 1v3h3"/>
-                      </svg>
+                      <svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 6.5A4.5 4.5 0 1 1 8 2.3"/><path d="M8 1v3h3"/></svg>
                       Re-extract
                     </button>
                   </div>
+                  
                 </div>
                 <div class="fs">
                   <div class="fs-title">Order Header</div>
                   <div class="frow2 c2">
-                    <div class="fg3"><label>Order Type <span class="req">*</span></label><select><option>ZCS – Standard Order Core</option><option>OR – Standard Order</option><option selected>ZOR – Special Order</option></select></div>
+                    <div class="fg3"><label>Order Type <span class="req">*</span></label><select><option>ZCS – Standard Order Core</option><option>OR – Standard Order</option><option>ZOR – Special Order</option></select></div>
                     <div class="fg3"><label>Order Reason <span class="req">*</span></label><select><option>120 – Customer E-mail Order</option><option>10 – Regular</option><option>20 – Promotion</option></select></div>
                   </div>
                 </div>
                 <div class="fs">
                   <div class="fs-title">Sold-to Party</div>
-                  <div class="fg3"><label>Customer Name</label><input type="text" class="filled" value="VOLKSWAGEN GROUP" id="cname"></div>
+                  <div class="fg3"><label>Customer Name</label><input type="text" class="filled" value="VOLKSWAGEN GROUP JAPAN" id="cname"></div>
                   <div class="frow2 c2" style="margin-bottom:14px;">
                     <div class="fg3"><label>Sold-to Code <span class="req">*</span></label>
                       <div class="inp-ic"><input type="text" class="filled" value="0000042563"><span class="ic"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><path d="M10 10l2 2"/></svg></span></div>
@@ -628,6 +649,12 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
                   <span class="ata-bar-label">Delivery Date:</span>
                   <span class="ata-bar-val" id="ata-bar-date-val">—</span>
                   <button class="ata-btn active" onclick="triggerAta('date')">Apply to all</button>
+                </div>
+                <div style="width:1px;height:20px;background:var(--gray-200);margin:0 4px;"></div>
+                <div class="ata-bar-item" id="ata-bar-shipto" style="display:none;">
+                  <span class="ata-bar-label">Ship-to:</span>
+                  <span class="ata-bar-val" id="ata-bar-shipto-val">—</span>
+                  <button class="ata-btn active" onclick="triggerAta('shipto')">Apply to all</button>
                 </div>
               </div>
               <div class="skip-banner" id="skip-banner">
@@ -765,6 +792,9 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 <!-- APPLY-TO-ALL CONFIRM MODAL -->
 <div class="overlay" id="ata-modal" style="display:none;" onclick="closeAtaModal(event)">
   <div class="confirm-modal" onclick="event.stopPropagation()">
+    <div class="confirm-icon warn">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L18 17H2L10 3Z" stroke="#D97706" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 9v4M10 15v.5" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
     <h3 id="ata-confirm-title">Apply unit to all items?</h3>
     <p id="ata-confirm-desc" style="margin-bottom:16px;"></p>
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
@@ -773,6 +803,22 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
         <div>
           <div style="font-size:13px;font-weight:600;color:var(--gray-800);">This PO only</div>
           <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Apply to all items in the current PO</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:6px;" id="scope-opt-custom" onclick="selectScope('custom')">
+        <input type="radio" name="ata-scope" value="custom" style="accent-color:var(--red);margin-top:2px;flex-shrink:0;">
+        <div style="width:100%;">
+          <div style="font-size:13px;font-weight:600;color:var(--gray-800);">Custom selection</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Choose specific POs by sequence number</div>
+          <div id="custom-sel-wrap" style="display:none;margin-top:8px;">
+            <input type="text" class="custom-sel-input" id="custom-sel-input"
+              placeholder="e.g. 1, 3, 5-10, 15"
+              oninput="parseCustomSelection(this.value)">
+            <div class="custom-sel-hint">Use commas for individual (1, 3) or hyphen for range (5-10)</div>
+            <div id="custom-sel-error" class="custom-sel-error" style="display:none;"></div>
+            <div class="custom-sel-preview" id="custom-sel-preview" style="display:none;"></div>
+            <div class="custom-sel-count" id="custom-sel-count" style="display:none;"></div>
+          </div>
         </div>
       </label>
       <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--red);border-radius:6px;background:#fff5f5;" id="scope-opt-file" onclick="selectScope('file')">
@@ -1054,21 +1100,17 @@ function _loadReview(id){
   document.getElementById('pdf-name').textContent = r.file;
   document.getElementById('finfo').textContent = r.file + ' · ' + (LINE_ITEMS[r.id]?.length || 0) + ' line items';
   // Reset ref rows on PO change
-  refRow = { unit: null, date: null };
+  refRow = { unit: null, date: null, shipto: null };
   document.querySelectorAll('.ata-btn').forEach(b=>b.classList.remove('active'));
   const ataBar = document.getElementById('ata-bar');
   if(ataBar) { ataBar.classList.remove('show'); ['unit','date'].forEach(f=>{ const el=document.getElementById('ata-bar-'+f); if(el) el.style.display='none'; }); }
   document.getElementById('skip-banner').classList.remove('show');
   renderLineItems(r.id);
+  updatePageRange(r.id);
 
   // siblings = all POs in same file (declare first, used below)
   const siblings = PO_DATA.filter(x => x.file === r.file);
   const posInFile = siblings.findIndex(x => x.id === id);
-  const startPage = siblings
-    .slice(0, posInFile)
-    .reduce((total, po) => total + (Number(po.pages) || 0), 0) + 1;
-  const endPage = startPage + (Number(r.pages) || 1) - 1;
-  updatePageRange(startPage, endPage);
 
   // breadcrumb: show seq info if multi-PO file
   const bcSeq = document.getElementById('bc-seq');
@@ -1292,15 +1334,17 @@ const SKU_VALID_UNITS = { 'DEFAULT': ['CS','PC','L'] };
 let ataState = { field: null, scope: null }; // pending confirm
 let skippedPOIds = []; // POs that had skipped items after apply-to-all
 
-let refRow = { unit: null, date: null }; // reference row elements
+let refRow = { unit: null, date: null, shipto: null }; // reference row elements
 
 function setRefRow(el, field) {
   // Clear the OTHER field first — only one active at a time
-  const other = field === 'unit' ? 'date' : 'unit';
-  document.querySelectorAll('.li-table tr.ref-' + other).forEach(r => r.classList.remove('ref-' + other));
-  refRow[other] = null;
-  const otherBarItem = document.getElementById('ata-bar-' + other);
-  if(otherBarItem) otherBarItem.style.display = 'none';
+  const others = ['unit','date','shipto'].filter(f => f !== field);
+  others.forEach(o => {
+    document.querySelectorAll('.li-table tr.ref-' + o).forEach(r => r.classList.remove('ref-' + o));
+    refRow[o] = null;
+    const ob = document.getElementById('ata-bar-' + o);
+    if(ob) ob.style.display = 'none';
+  });
 
   // Set new ref row for this field
   document.querySelectorAll('.li-table tr.ref-' + field).forEach(r => r.classList.remove('ref-' + field));
@@ -1319,15 +1363,91 @@ function setRefRow(el, field) {
 // ata menus removed — using dialog scope selector
 
 function selectScope(scope) {
-  const poBorder   = scope==='po'   ? 'var(--red)' : 'var(--gray-200)';
-  const fileBorder = scope==='file' ? 'var(--red)' : 'var(--gray-200)';
-  const poBg       = scope==='po'   ? '#fff5f5' : '#fff';
-  const fileBg     = scope==='file' ? '#fff5f5' : '#fff';
-  document.getElementById('scope-opt-po').style.borderColor   = poBorder;
-  document.getElementById('scope-opt-po').style.background    = poBg;
-  document.getElementById('scope-opt-file').style.borderColor = fileBorder;
-  document.getElementById('scope-opt-file').style.background  = fileBg;
+  ['po','custom','file'].forEach(s => {
+    const el = document.getElementById('scope-opt-' + s);
+    if(!el) return;
+    el.style.borderColor = scope===s ? 'var(--red)' : 'var(--gray-200)';
+    el.style.background  = scope===s ? '#fff5f5' : '#fff';
+  });
   document.querySelector(`input[value="${scope}"]`).checked = true;
+  // Show/hide custom input
+  const wrap = document.getElementById('custom-sel-wrap');
+  if(wrap) wrap.style.display = scope==='custom' ? 'block' : 'none';
+  if(scope==='custom') {
+    setTimeout(() => document.getElementById('custom-sel-input')?.focus(), 50);
+  }
+}
+
+function parseCustomSelection(val) {
+  const currentPO = PO_DATA.find(x => x.id === currentReviewId);
+  const siblings  = PO_DATA.filter(x => x.file === currentPO.file);
+  const maxSeq    = siblings.length;
+
+  const input   = document.getElementById('custom-sel-input');
+  const preview = document.getElementById('custom-sel-preview');
+  const count   = document.getElementById('custom-sel-count');
+  const errEl   = document.getElementById('custom-sel-error');
+
+  if(!val.trim()) {
+    preview.style.display = 'none';
+    count.style.display   = 'none';
+    errEl.style.display   = 'none';
+    input.classList.remove('error');
+    return;
+  }
+
+  // Parse: "1, 3, 5-10, 15"
+  const seqs = new Set();
+  const parts = val.split(',').map(s => s.trim()).filter(Boolean);
+  let hasError = false;
+
+  for(const part of parts) {
+    if(part.includes('-')) {
+      const [a, b] = part.split('-').map(s => parseInt(s.trim()));
+      if(isNaN(a) || isNaN(b) || a > b) { hasError = true; break; }
+      for(let i = a; i <= b; i++) seqs.add(i);
+    } else {
+      const n = parseInt(part);
+      if(isNaN(n)) { hasError = true; break; }
+      seqs.add(n);
+    }
+  }
+
+  // Validate range
+  const outOfRange = [...seqs].filter(s => s < 1 || s > maxSeq);
+  if(hasError || outOfRange.length > 0) {
+    input.classList.add('error');
+    errEl.style.display = 'block';
+    errEl.textContent   = outOfRange.length > 0
+      ? `Seq ${outOfRange.join(', ')} not found — this file has ${maxSeq} POs (Seq 1–${maxSeq})`
+      : 'Invalid format. Use: 1, 3, 5-10';
+    preview.style.display = 'none';
+    count.style.display   = 'none';
+    return;
+  }
+
+  input.classList.remove('error');
+  errEl.style.display = 'none';
+
+  // Render preview — only selected rows
+  const selectedSeqs = [...seqs].sort((a,b)=>a-b);
+  const selectedPOs  = selectedSeqs.map(s => siblings.find(p => p.seq === s)).filter(Boolean);
+
+  if(selectedPOs.length === 0) {
+    preview.style.display = 'none';
+    count.style.display   = 'none';
+    return;
+  }
+
+  preview.innerHTML = selectedPOs.map(po => `
+    <div class="custom-sel-preview-item">
+      <span class="seq-b">${po.seq}</span>
+      <span class="po-num">${po.po}</span>
+      <span class="po-status"><span class="${sbCls(po.status)}">${po.status}</span></span>
+    </div>`).join('');
+  preview.style.display = 'block';
+  count.style.display   = 'block';
+  count.textContent     = `Selected: ${selectedPOs.length} / ${maxSeq} POs`;
 }
 
 function triggerAta(field) {
@@ -1335,20 +1455,32 @@ function triggerAta(field) {
     showToast('No reference row selected', 'Please click on a ' + (field==='unit'?'Unit':'Delivery Date') + ' cell first.', '#E30613');
     return;
   }
-  const sourceVal = refRow[field + 'Val'] || (field === 'unit' ? 'CS' : '');
+  const sourceVal = refRow[field + 'Val'] || (field === 'unit' ? 'CS' : field === 'shipto' ? '' : '');
 
   ataState = { field, value: sourceVal };
 
   // Update dialog
-  const fieldLabel = field === 'unit' ? `Unit "<strong>${sourceVal}</strong>"` : `Delivery Date "<strong>${sourceVal}</strong>"`;
+  const fieldName  = field==='unit' ? 'Unit' : field==='date' ? 'Delivery Date' : 'Ship-to';
+  const fieldLabel = `${fieldName} "<strong>${sourceVal}</strong>"`;
   document.getElementById('ata-confirm-title').innerHTML = `Apply ${fieldLabel} to all items?`;
   document.getElementById('ata-confirm-desc').innerHTML =
-    `Set <strong>${field==='unit'?sourceVal:sourceVal}</strong> for all line items — scope below.`;
+    `Set <strong>${sourceVal}</strong> for all line items — choose scope below.`;
 
   // Update file PO count in label
   const siblings = PO_DATA.filter(x => x.file === (PO_DATA.find(p=>p.id===currentReviewId)?.file));
   document.getElementById('scope-file-label').textContent = `All POs in this file (${siblings.length} POs)`;
 
+  // Reset custom input
+  const csi = document.getElementById('custom-sel-input');
+  if(csi) { csi.value=''; csi.classList.remove('error'); }
+  const csw = document.getElementById('custom-sel-wrap');
+  if(csw) csw.style.display='none';
+  const csp = document.getElementById('custom-sel-preview');
+  if(csp) csp.style.display='none';
+  const csc = document.getElementById('custom-sel-count');
+  if(csc) csc.style.display='none';
+  const cse = document.getElementById('custom-sel-error');
+  if(cse) cse.style.display='none';
   // Default to "file" scope selected
   selectScope('file');
   document.getElementById('ata-modal').style.display = 'flex';
@@ -1360,20 +1492,48 @@ function closeAtaModal(e) {
 }
 
 function executeAta() {
-  document.getElementById('ata-modal').style.display = 'none';
   const scope = document.querySelector('input[name="ata-scope"]:checked')?.value || 'file';
+
+  // Validate custom selection
+  if(scope === 'custom') {
+    const val = document.getElementById('custom-sel-input')?.value || '';
+    if(!val.trim()) {
+      document.getElementById('custom-sel-error').style.display = 'block';
+      document.getElementById('custom-sel-error').textContent = 'Please enter a sequence selection.';
+      return;
+    }
+    // Check for error class
+    if(document.getElementById('custom-sel-input').classList.contains('error')) return;
+  }
+
+  document.getElementById('ata-modal').style.display = 'none';
   const { field, value } = ataState;
   skippedPOIds = [];
   if(field === 'unit') applyUnit(value, scope);
-  else applyDate(value, scope);
+  else if(field === 'date') applyDate(value, scope);
+  else applyShipto(value, scope);
 }
 
 function applyUnit(unit, scope) {
   // Determine which POs to apply to
   const currentPO = PO_DATA.find(x => x.id === currentReviewId);
-  const targetPOs = scope === 'file'
-    ? PO_DATA.filter(x => x.file === currentPO.file && x.status === 'PENDING REVIEW')
-    : [currentPO].filter(x => x.status === 'PENDING REVIEW');
+  const siblings = PO_DATA.filter(x => x.file === currentPO.file);
+  let targetPOs;
+  if(scope === 'file') {
+    targetPOs = siblings.filter(x => x.status === 'PENDING REVIEW');
+  } else if(scope === 'custom') {
+    const val   = document.getElementById('custom-sel-input')?.value || '';
+    const seqs  = new Set();
+    val.split(',').map(s=>s.trim()).filter(Boolean).forEach(part => {
+      if(part.includes('-')) {
+        const [a,b] = part.split('-').map(s=>parseInt(s.trim()));
+        for(let i=a;i<=b;i++) seqs.add(i);
+      } else { seqs.add(parseInt(part)); }
+    });
+    targetPOs = siblings.filter(x => seqs.has(x.seq) && x.status === 'PENDING REVIEW');
+  } else {
+    targetPOs = [currentPO].filter(x => x.status === 'PENDING REVIEW');
+  }
 
   let totalApplied = 0, totalSkipped = 0, posWithSkip = [];
 
@@ -1435,9 +1595,23 @@ function applyUnit(unit, scope) {
 function applyDate(date, scope) {
   if(!date) { showToast('No date selected','Please click on a Delivery Date cell first.','#E30613'); return; }
   const currentPO = PO_DATA.find(x => x.id === currentReviewId);
-  const targetPOs = scope === 'file'
-    ? PO_DATA.filter(x => x.file === currentPO.file && x.status === 'PENDING REVIEW')
-    : [currentPO].filter(x => x.status === 'PENDING REVIEW');
+  const siblingsD = PO_DATA.filter(x => x.file === currentPO.file);
+  let targetPOs;
+  if(scope === 'file') {
+    targetPOs = siblingsD.filter(x => x.status === 'PENDING REVIEW');
+  } else if(scope === 'custom') {
+    const val  = document.getElementById('custom-sel-input')?.value || '';
+    const seqs = new Set();
+    val.split(',').map(s=>s.trim()).filter(Boolean).forEach(part => {
+      if(part.includes('-')) {
+        const [a,b] = part.split('-').map(s=>parseInt(s.trim()));
+        for(let i=a;i<=b;i++) seqs.add(i);
+      } else { seqs.add(parseInt(part)); }
+    });
+    targetPOs = siblingsD.filter(x => seqs.has(x.seq) && x.status === 'PENDING REVIEW');
+  } else {
+    targetPOs = [currentPO].filter(x => x.status === 'PENDING REVIEW');
+  }
 
   let totalApplied = 0;
   targetPOs.forEach(po => {
@@ -1453,6 +1627,37 @@ function applyDate(date, scope) {
 
   const scopeLabel = scope === 'file' ? `${targetPOs.length} POs` : 'this PO';
   showToast('Delivery date applied', `Set to ${date} for ${totalApplied} items across ${scopeLabel}.`);
+}
+
+function applyShipto(value, scope) {
+  const currentPO = PO_DATA.find(x => x.id === currentReviewId);
+  const siblingsS = PO_DATA.filter(x => x.file === currentPO.file);
+  let targetPOs;
+  if(scope === 'file') {
+    targetPOs = siblingsS.filter(x => x.status === 'PENDING REVIEW');
+  } else if(scope === 'custom') {
+    const val  = document.getElementById('custom-sel-input')?.value || '';
+    const seqs = new Set();
+    val.split(',').map(s=>s.trim()).filter(Boolean).forEach(part => {
+      if(part.includes('-')) {
+        const [a,b] = part.split('-').map(s=>parseInt(s.trim()));
+        for(let i=a;i<=b;i++) seqs.add(i);
+      } else { seqs.add(parseInt(part)); }
+    });
+    targetPOs = siblingsS.filter(x => seqs.has(x.seq) && x.status === 'PENDING REVIEW');
+  } else {
+    targetPOs = [currentPO].filter(x => x.status === 'PENDING REVIEW');
+  }
+  let total = 0;
+  targetPOs.forEach(po => {
+    (LINE_ITEMS[po.id] || []).forEach(item => { item.shipto = value; total++; });
+  });
+  renderLineItems(currentReviewId);
+  if(refRow.shipto){ refRow.shipto.classList.remove('ref-shipto'); refRow.shipto=null; }
+  const bsEl = document.getElementById('ata-bar-shipto'); if(bsEl) bsEl.style.display='none';
+  if(!refRow.unit && !refRow.date) document.getElementById('ata-bar')?.classList.remove('show');
+  const scopeLabel = scope==='file' ? `${targetPOs.length} POs` : scope==='custom' ? `${targetPOs.length} selected POs` : 'this PO';
+  showToast('Ship-to applied', `Set to "${value}" for ${total} items across ${scopeLabel}.`);
 }
 
 function goNextSkippedPO() {
@@ -1500,12 +1705,10 @@ function renderLineItems(poId) {
   const hdr = `<thead><tr>
     <th>Material Desc (PO)</th>
     <th>SAP SKU Code <span style="color:var(--red)">*</span></th>
-    <th>SAP Desc <span style="color:var(--red)">*</span></th>
+    <th>Ship-to <span style="color:var(--red)">*</span></th>
     <th>Qty <span style="color:var(--red)">*</span></th>
     <th>Unit</th>
     <th>Delivery Date</th>
-    <th>Ship-to ID <span style="color:var(--red)">*</span></th>
-    <th>Shipping Address <span style="color:var(--red)">*</span></th>
     <th>SO Number</th><th>Actions</th>
   </tr></thead>`;
 
@@ -1523,12 +1726,10 @@ function renderLineItems(poId) {
       <td><div class="inp-ic"><input type="text" value="${it.desc}" style="min-width:150px;">
         <span class="ic"><svg width="11" height="11" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><path d="M10 10l2 2"/></svg></span></div></td>
       <td><input type="text" value="${it.sku}" style="min-width:130px;"></td>
-      <td><span style="color:var(--gray-400);font-size:11px;">—</span></td>
+      <td><select class="shipto-sel" style="min-width:110px;" onclick="setRefRow(this,'shipto')"><option>SH-001 Tokyo</option><option>SH-002 Osaka</option><option>SH-003 Nagoya</option></select></td>
       <td><input type="number" value="${it.qty}" style="width:55px;"></td>
       <td><select class="unit-sel" style="width:55px;" onclick="setRefRow(this,'unit')">${opts}</select>${skipTag}</td>
       <td><input type="date" class="date-inp" value="${it.date}" onclick="setRefRow(this,'date')" style="min-width:110px;"></td>
-      <td><select style="min-width:110px;"><option>${it.shipto}</option></select></td>
-      <td><span style="color:var(--gray-400);font-size:11px;white-space:nowrap;">159934 SG Singapore</span></td>
       <td><span style="color:var(--gray-400);font-size:11px;">—</span></td>
       <td>${actionBtns}</td>
     </tr>`;
@@ -1537,10 +1738,6 @@ function renderLineItems(poId) {
   const table = document.createElement('table');
   table.className = 'li-table';
   table.innerHTML = hdr + '<tbody>' + rows + '</tbody>';
-  const pageHeader = document.createElement('div');
-  pageHeader.className = 'pg-hdr';
-  pageHeader.innerHTML = `<span>Page 1</span><small>${items.length} line items</small>`;
-  container.appendChild(pageHeader);
   container.appendChild(table);
 
   // Update tab label
@@ -1579,36 +1776,46 @@ function jumpToPO() {
   setTimeout(() => { _loadReview(target.id); switchTab('hdr'); panel.style.opacity = '1'; }, 180);
 }
 
-function reExtract() {
-  const start = parseInt(document.getElementById('pr-start').value);
-  const end   = parseInt(document.getElementById('pr-end').value);
-  const btn   = document.querySelector('.btn-reextract');
 
-  if(!start || !end || start > end) {
-    alert('Invalid page range: Start must be less than or equal to End.');
-    return;
-  }
+// Simulated page ranges per PO id
+const PO_PAGE_RANGES = {
+  4: {start:1, end:3},
+  5: {start:4, end:6},
+  6: {start:7, end:8},
+  7: {start:9, end:11},
+  8: {start:12, end:14},
+  9: {start:1, end:2},
+  10: {start:3, end:3},
+  11: {start:4, end:6},
+};
 
-  // Save original button content
-  const originalHTML = btn.innerHTML;
-  btn.textContent = 'Extracting...';
-  btn.disabled = true;
-
-  // TODO: Replace this timeout with your actual API call
-  setTimeout(() => {
-    btn.innerHTML = originalHTML;
-    btn.disabled = false;
-    alert(`Re-extraction complete: Pages ${start}–${end} re-processed.`);
-  }, 1800);
-}
-
-// Call this function when loading a PO to set the correct page range
-// Example: updatePageRange(1, 4) to set Start=1, End=4
-function updatePageRange(start, end) {
+function updatePageRange(poId) {
+  const range = PO_PAGE_RANGES[poId] || {start:1, end:2};
   const s = document.getElementById('pr-start');
   const e = document.getElementById('pr-end');
-  if(s) s.value = start;
-  if(e) e.value = end;
+  if(s) s.value = range.start;
+  if(e) e.value = range.end;
+}
+
+function reExtract() {
+  const start = document.getElementById('pr-start')?.value;
+  const end   = document.getElementById('pr-end')?.value;
+  const btn   = document.querySelector('.btn-reextract');
+  if(!start || !end || parseInt(start) > parseInt(end)) {
+    showToast('Invalid page range', 'Start page must be less than or equal to end page.', '#E30613');
+    return;
+  }
+  // Simulate re-extraction
+  btn.textContent = 'Extracting...';
+  btn.disabled = true;
+  const panel = document.querySelector('.form-body');
+  panel.style.opacity = '0.4';
+  setTimeout(() => {
+    panel.style.opacity = '1';
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 6.5A4.5 4.5 0 1 1 8 2.3"/><path d="M8 1v3h3"/></svg> Re-extract';
+    btn.disabled = false;
+    showToast('Re-extraction complete', `Pages ${start}–${end} re-processed successfully.`);
+  }, 1800);
 }
 
 // INIT
