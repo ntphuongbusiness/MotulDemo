@@ -2062,7 +2062,7 @@ function updatePageRange(poId) {
   if(e) e.value = range.end;
   // Also update main PDF viewer
   const mainIframe = document.getElementById('main-pdf-iframe');
-  if(mainIframe && PO_PDF_MAP[poId]) {
+  if(mainIframe && typeof PO_PDF_MAP !== 'undefined' && PO_PDF_MAP[poId]) {
     try {
       const b64m = PO_PDF_MAP[poId].split(',')[1];
       const binm = atob(b64m);
@@ -2105,5 +2105,6 @@ function reExtract() {
 // INIT
 setDDate(); renderTable(PO_DATA);
 </script>
+<script src="po_files.js"></script>
 </body>
 </html>
