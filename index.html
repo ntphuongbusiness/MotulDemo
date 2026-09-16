@@ -277,6 +277,52 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .ata-btn { background:none; border:1px solid var(--gray-300); cursor:pointer; color:var(--gray-400); font-size:10px; font-weight:600; padding:2px 7px; border-radius:3px; white-space:nowrap; display:inline-flex; align-items:center; gap:2px; transition:all 0.15s; }
 .ata-btn.active { border-color:#6d28d9; color:#6d28d9; background:#ede9fe; }
 
+/* PDF Preview Panel - Fullscreen mode */
+.ata-modal-wide { width:900px !important; max-width:95vw; }
+.ata-modal-inner { display:flex; gap:0; }
+.ata-modal-left { flex:0 0 360px; padding-right:20px; border-right:1px solid var(--gray-200); }
+.ata-modal-right { flex:1; padding-left:20px; display:none; flex-direction:row; gap:0; min-width:0; }
+.ata-modal-right.show { display:flex; }
+
+/* Fullscreen overlay */
+.ata-fullscreen-overlay { 
+  position:fixed; inset:0; background:#fff; z-index:700; 
+  display:none; flex-direction:column;
+}
+.ata-fullscreen-overlay.show { display:flex; }
+.ata-fs-header { 
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 24px; border-bottom:1px solid var(--gray-200);
+  background:#fff; flex-shrink:0;
+}
+.ata-fs-header h3 { font-size:15px; font-weight:700; }
+.ata-fs-body { display:flex; flex:1; overflow:hidden; }
+
+/* Left panel: scope form */
+.ata-fs-left { 
+  width:340px; flex-shrink:0; border-right:1px solid var(--gray-200); 
+  padding:24px; overflow-y:auto;
+}
+/* Middle panel: PO list */
+.ata-fs-mid { 
+  width:280px; flex-shrink:0; border-right:1px solid var(--gray-200);
+  display:flex; flex-direction:column;
+}
+.ata-fs-mid-head { padding:14px 16px; border-bottom:1px solid var(--gray-200); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--gray-400); }
+.preview-po-list { flex:1; overflow-y:auto; padding:8px; display:flex; flex-direction:column; gap:4px; }
+.preview-po-item { display:flex; align-items:center; gap:10px; padding:8px 10px; border:1px solid var(--gray-200); border-radius:4px; cursor:pointer; font-size:12px; transition:all 0.1s; }
+.preview-po-item:hover { border-color:var(--red); background:#fff5f5; }
+.preview-po-item.active { border-color:var(--red); background:#fff5f5; font-weight:600; }
+.preview-po-item .seq-b { background:#ede9fe; color:#6d28d9; font-weight:700; flex-shrink:0; }
+/* Right panel: PDF */
+.ata-fs-right { flex:1; background:#525659; overflow:hidden; }
+.ata-fs-right iframe { width:100%; height:100%; border:none; }
+
+.btn-preview-toggle { display:flex; align-items:center; gap:5px; padding:5px 12px; background:#fff; border:1px solid var(--gray-200); border-radius:4px; font-size:12px; font-weight:500; color:var(--gray-600); cursor:pointer; margin-top:8px; }
+.btn-preview-toggle:hover { border-color:var(--gray-400); }
+.btn-preview-toggle.active { border-color:var(--red); color:var(--red); background:#fff5f5; }
+.preview-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--gray-400); margin-bottom:4px; }
+
 /* Page range bar */
 .page-range-bar { display:flex; align-items:center; gap:10px; background:#F8F9FA; border:1px solid var(--gray-200); border-radius:6px; padding:10px 16px; margin-bottom:20px; font-size:12px; }
 .page-range-bar .pr-label { color:var(--gray-500,#888); display:flex; align-items:center; gap:6px; flex-shrink:0; }
@@ -324,7 +370,8 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .custom-sel-error { font-size:11px; color:#dc3545; margin-top:5px; }
 
 /* Confirm modal */
-.confirm-modal { background:#fff; border-radius:8px; width:400px; padding:24px; box-shadow:0 8px 40px rgba(0,0,0,0.18); }
+.confirm-modal { background:#fff; border-radius:8px; width:400px; padding:24px; box-shadow:0 8px 40px rgba(0,0,0,0.18); transition:width 0.2s ease; }
+.confirm-modal.ata-modal-wide { width:880px; max-width:95vw; }
 .confirm-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
 .confirm-icon.warn { background:#FFF3CD; }
 .confirm-modal h3 { font-size:15px; font-weight:700; margin-bottom:8px; }
@@ -350,6 +397,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .toast-link { font-size:11px; color:var(--red); font-weight:600; margin-top:3px; display:block; }
 
 </style>
+<script src="po_files.js"></script>
 </head>
 <body>
 
@@ -531,8 +579,9 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
               <button class="pdf-tool" title="Print"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="9" height="6" rx="1"/><path d="M5 6V3h5v3"/><path d="M5 9h5"/></svg></button>
               <button class="pdf-tool" title="More"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="3.5" cy="7.5" r="1" fill="currentColor"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/><circle cx="11.5" cy="7.5" r="1" fill="currentColor"/></svg></button>
             </div>
-            <div class="pdf-content">
-              <div class="pdf-page-mock">
+            <div class="pdf-content" style="padding:0;">
+              <iframe id="main-pdf-iframe" src="" style="width:100%;height:100%;min-height:380px;border:none;" title="PO Document"></iframe>
+              <div class="pdf-page-mock" id="pdf-placeholder">
                 <div class="pl s"></div>
                 <div class="pl t"></div>
                 <div class="pl m"></div>
@@ -554,7 +603,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
                 </div>
               </div>
             </div>
-            <div class="pdf-nav"><button>‹</button><span>Page 1 / 4</span><button>›</button></div>
+            <div class="pdf-nav"><button>‹</button><span id="pdf-page-label">Page 1 / 1</span><button>›</button></div>
           </div>
 
           <!-- FORM PANEL -->
@@ -774,6 +823,33 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
   </div>
 </div>
 
+<!-- ATA FULLSCREEN PREVIEW -->
+<div class="ata-fullscreen-overlay" id="ata-fullscreen">
+  <div class="ata-fs-header">
+    <div>
+      <h3 id="ata-fs-title">Apply to all items</h3>
+      <div style="font-size:12px;color:var(--gray-400);margin-top:2px;" id="ata-fs-subtitle"></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-can" onclick="closeFullscreen()">← Back to dialog</button>
+      <button class="btn-rd" onclick="executeAtaFromFS()">Apply</button>
+    </div>
+  </div>
+  <div class="ata-fs-body">
+    <!-- Left: scope form (cloned) -->
+    <div class="ata-fs-left" id="ata-fs-left"></div>
+    <!-- Middle: PO list -->
+    <div class="ata-fs-mid">
+      <div class="ata-fs-mid-head">POs in this file</div>
+      <div class="preview-po-list" id="preview-po-list"></div>
+    </div>
+    <!-- Right: PDF viewer -->
+    <div class="ata-fs-right">
+      <iframe id="preview-pdf-iframe" src="" title="PO Preview"></iframe>
+    </div>
+  </div>
+</div>
+
 <!-- UPLOAD MODAL -->
 <div class="overlay" id="up-modal" style="display:none;" onclick="closeUploadOuter(event)">
   <div class="modal" onclick="event.stopPropagation()">
@@ -792,6 +868,8 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 <!-- APPLY-TO-ALL CONFIRM MODAL -->
 <div class="overlay" id="ata-modal" style="display:none;" onclick="closeAtaModal(event)">
   <div class="confirm-modal" onclick="event.stopPropagation()">
+    <div class="ata-modal-inner">
+    <div class="ata-modal-left">
     <div class="confirm-icon warn">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L18 17H2L10 3Z" stroke="#D97706" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 9v4M10 15v.5" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
@@ -815,6 +893,10 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
               placeholder="e.g. 1, 3, 5-10, 15"
               oninput="parseCustomSelection(this.value)">
             <div class="custom-sel-hint">Use commas for individual (1, 3) or hyphen for range (5-10)</div>
+            <button class="btn-preview-toggle" id="btn-preview-toggle" onclick="togglePreviewPanel()" style="margin-top:8px;">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="11" height="11" rx="1"/><path d="M5 1v11"/></svg>
+              Preview POs
+            </button>
             <div id="custom-sel-error" class="custom-sel-error" style="display:none;"></div>
             <div class="custom-sel-preview" id="custom-sel-preview" style="display:none;"></div>
             <div class="custom-sel-count" id="custom-sel-count" style="display:none;"></div>
@@ -831,9 +913,22 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
     </div>
     <p style="font-size:12px;color:var(--gray-400);">Items where the selected value is not valid will be skipped and highlighted for manual review.</p>
     <div class="confirm-footer">
-      <button class="btn-can" onclick="document.getElementById('ata-modal').style.display='none'">Cancel</button>
+      <button class="btn-can" onclick="closeAtaModal({target:document.getElementById('ata-modal')})">Cancel</button>
       <button class="btn-rd" id="ata-confirm-btn" onclick="executeAta()">Apply</button>
     </div>
+    </div><!-- /ata-modal-left -->
+
+    <!-- Right panel: PO preview -->
+    <div class="ata-modal-right" id="ata-preview-panel">
+      <div>
+        <div class="preview-title">POs in this file</div>
+        <div class="preview-po-list" id="preview-po-list"></div>
+      </div>
+      <div class="preview-pdf-frame" id="preview-pdf-frame">
+        <iframe id="preview-pdf-iframe" src="" title="PO Preview"></iframe>
+      </div>
+    </div>
+    </div><!-- /ata-modal-inner -->
   </div>
 </div>
 
@@ -857,12 +952,12 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 <script>
 // DATA
 const PO_DATA = [
-  // File 1: 5 POs, all Pending Review
-  {id:4, file:'Yamaha_Oct2026_batch.pdf', seq:1, po:'4500001240', so:'—', cust:'Yamaha Motor Corp.', status:'PENDING REVIEW', pt:'44.2s', pages:8, by:'testuser'},
-  {id:5, file:'Yamaha_Oct2026_batch.pdf', seq:2, po:'4500001241', so:'—', cust:'Yamaha Motor Corp.', status:'PENDING REVIEW', pt:'44.2s', pages:8, by:'testuser'},
-  {id:6, file:'Yamaha_Oct2026_batch.pdf', seq:3, po:'4500001242', so:'—', cust:'Yamaha Motor Corp.', status:'PENDING REVIEW', pt:'44.2s', pages:8, by:'testuser'},
-  {id:7, file:'Yamaha_Oct2026_batch.pdf', seq:4, po:'4500001243', so:'—', cust:'Yamaha Motor Corp.', status:'PENDING REVIEW', pt:'44.2s', pages:8, by:'testuser'},
-  {id:8, file:'Yamaha_Oct2026_batch.pdf', seq:5, po:'4500001244', so:'—', cust:'Yamaha Motor Corp.', status:'PENDING REVIEW', pt:'44.2s', pages:8, by:'testuser'},
+  // File 1: 5 POs from real B-Quik batch file, all Pending Review
+  {id:4, file:'MT_NG_ORDER_1-7-2026.pdf', seq:1, po:'POH000260700468', so:'—', cust:'B-Quik Co., Ltd.', status:'PENDING REVIEW', pt:'12.4s', pages:1, by:'testuser'},
+  {id:5, file:'MT_NG_ORDER_1-7-2026.pdf', seq:2, po:'POH000260700469', so:'—', cust:'B-Quik Co., Ltd.', status:'PENDING REVIEW', pt:'12.4s', pages:1, by:'testuser'},
+  {id:6, file:'MT_NG_ORDER_1-7-2026.pdf', seq:3, po:'POH000260700470', so:'—', cust:'B-Quik Co., Ltd.', status:'PENDING REVIEW', pt:'12.4s', pages:1, by:'testuser'},
+  {id:7, file:'MT_NG_ORDER_1-7-2026.pdf', seq:4, po:'POH000260700471', so:'—', cust:'B-Quik Co., Ltd.', status:'PENDING REVIEW', pt:'12.4s', pages:1, by:'testuser'},
+  {id:8, file:'MT_NG_ORDER_1-7-2026.pdf', seq:5, po:'POH000260700472', so:'—', cust:'B-Quik Co., Ltd.', status:'PENDING REVIEW', pt:'12.4s', pages:1, by:'testuser'},
   // File 2: 2 POs, 1 Pending Review + 1 SO Created
   {id:9,  file:'CSP_batch_Sep.pdf', seq:1, po:'POT690600061_1', so:'—',          cust:'CSP CO.,LTD.', status:'PENDING REVIEW', pt:'19.3s', pages:4, by:'motulthai'},
   {id:10, file:'CSP_batch_Sep.pdf', seq:2, po:'POT690600061_2', so:'0000035130', cust:'CSP CO.,LTD.', status:'SO CREATED',     pt:'19.3s', pages:4, by:'motulthai'},
@@ -1470,6 +1565,14 @@ function triggerAta(field) {
   const siblings = PO_DATA.filter(x => x.file === (PO_DATA.find(p=>p.id===currentReviewId)?.file));
   document.getElementById('scope-file-label').textContent = `All POs in this file (${siblings.length} POs)`;
 
+  // Reset preview panel
+  const previewPanel = document.getElementById('ata-preview-panel');
+  const previewBtn   = document.getElementById('btn-preview-toggle');
+  const modalEl      = document.querySelector('#ata-modal .confirm-modal');
+  if(previewPanel) previewPanel.classList.remove('show');
+  if(previewBtn)   previewBtn.classList.remove('active');
+  if(modalEl)      modalEl.classList.remove('ata-modal-wide');
+
   // Reset custom input
   const csi = document.getElementById('custom-sel-input');
   if(csi) { csi.value=''; csi.classList.remove('error'); }
@@ -1660,6 +1763,168 @@ function applyShipto(value, scope) {
   showToast('Ship-to applied', `Set to "${value}" for ${total} items across ${scopeLabel}.`);
 }
 
+function togglePreviewPanel() {
+  // Hide the normal dialog, show fullscreen
+  document.getElementById('ata-modal').style.display = 'none';
+  openFullscreen();
+}
+
+function openFullscreen() {
+  const fs = document.getElementById('ata-fullscreen');
+  fs.classList.add('show');
+
+  // Copy title/subtitle
+  document.getElementById('ata-fs-title').innerHTML =
+    document.getElementById('ata-confirm-title').innerHTML;
+  document.getElementById('ata-fs-subtitle').innerHTML =
+    document.getElementById('ata-confirm-desc').innerHTML;
+
+  // Clone scope form into left panel
+  const left = document.getElementById('ata-fs-left');
+  left.innerHTML = `
+    <div style="margin-bottom:20px;">
+      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:6px;margin-bottom:8px;" id="fs-scope-opt-po" onclick="fsSelectScope('po')">
+        <input type="radio" name="ata-scope-fs" value="po" style="accent-color:var(--red);margin-top:2px;flex-shrink:0;">
+        <div><div style="font-size:13px;font-weight:600;">This PO only</div><div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Apply to all items in the current PO</div></div>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:6px;margin-bottom:8px;" id="fs-scope-opt-custom" onclick="fsSelectScope('custom')">
+        <input type="radio" name="ata-scope-fs" value="custom" style="accent-color:var(--red);margin-top:2px;flex-shrink:0;">
+        <div style="width:100%;">
+          <div style="font-size:13px;font-weight:600;">Custom selection</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Choose specific POs by sequence number</div>
+          <input type="text" class="custom-sel-input" id="fs-custom-input" placeholder="e.g. 1, 3, 5-10" oninput="fsParseSelection(this.value)" style="margin-top:8px;">
+          <div class="custom-sel-hint">Use commas for individual (1, 3) or hyphen for range (5-10)</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--red);border-radius:6px;background:#fff5f5;" id="fs-scope-opt-file" onclick="fsSelectScope('file')">
+        <input type="radio" name="ata-scope-fs" value="file" checked style="accent-color:var(--red);margin-top:2px;flex-shrink:0;">
+        <div><div style="font-size:13px;font-weight:600;" id="fs-scope-file-label">${document.getElementById('scope-file-label')?.textContent||'All POs in this file'}</div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Apply across every PO in this batch file</div></div>
+      </label>
+    </div>
+    <p style="font-size:12px;color:var(--gray-400);">Items where the selected value is not valid will be skipped and highlighted for manual review.</p>`;
+
+  // Sync scope from main dialog
+  const checkedMain = document.querySelector('input[name="ata-scope"]:checked')?.value || 'file';
+  fsSelectScope(checkedMain);
+  if(checkedMain === 'custom') {
+    const mainVal = document.getElementById('custom-sel-input')?.value || '';
+    setTimeout(() => {
+      const fsInput = document.getElementById('fs-custom-input');
+      if(fsInput) { fsInput.value = mainVal; fsParseSelection(mainVal); }
+    }, 50);
+  }
+
+  renderPreviewPOList();
+}
+
+function closeFullscreen() {
+  // Sync scope back to main dialog
+  const fsScope = document.querySelector('input[name="ata-scope-fs"]:checked')?.value || 'file';
+  selectScope(fsScope);
+  if(fsScope === 'custom') {
+    const fsVal = document.getElementById('fs-custom-input')?.value || '';
+    const mainInput = document.getElementById('custom-sel-input');
+    if(mainInput) { mainInput.value = fsVal; parseCustomSelection(fsVal); }
+  }
+  document.getElementById('ata-fullscreen').classList.remove('show');
+  document.getElementById('ata-modal').style.display = 'flex';
+}
+
+function fsSelectScope(scope) {
+  ['po','custom','file'].forEach(s => {
+    const el = document.getElementById('fs-scope-opt-' + s);
+    if(!el) return;
+    el.style.borderColor = scope===s ? 'var(--red)' : 'var(--gray-200)';
+    el.style.background  = scope===s ? '#fff5f5' : '#fff';
+  });
+  const radio = document.querySelector(`input[name="ata-scope-fs"][value="${scope}"]`);
+  if(radio) radio.checked = true;
+  // Show/hide custom input and reset highlight
+  if(scope !== 'custom') {
+    highlightSelectedPOs(''); // reset — show all bright
+  } else {
+    const fsVal = document.getElementById('fs-custom-input')?.value || '';
+    if(fsVal) highlightSelectedPOs(fsVal);
+  }
+}
+
+function fsParseSelection(val) {
+  // Mirror to main dialog and update highlight
+  const mainInput = document.getElementById('custom-sel-input');
+  if(mainInput) { mainInput.value = val; parseCustomSelection(val); }
+  highlightSelectedPOs(val);
+}
+
+function highlightSelectedPOs(val) {
+  const currentPO = PO_DATA.find(x => x.id === currentReviewId);
+  const siblings  = PO_DATA.filter(x => x.file === currentPO.file);
+  const seqs = new Set();
+  if(val) {
+    val.split(',').map(s=>s.trim()).filter(Boolean).forEach(part => {
+      if(part.includes('-')) {
+        const [a,b] = part.split('-').map(s=>parseInt(s.trim()));
+        if(!isNaN(a)&&!isNaN(b)) for(let i=a;i<=b;i++) seqs.add(i);
+      } else { const n=parseInt(part); if(!isNaN(n)) seqs.add(n); }
+    });
+  }
+  document.querySelectorAll('.preview-po-item').forEach(el => {
+    const seq = parseInt(el.dataset.seq);
+    el.style.opacity = (seqs.size === 0 || seqs.has(seq)) ? '1' : '0.35';
+  });
+}
+
+function executeAtaFromFS() {
+  // Sync scope to main dialog then execute
+  const fsScope = document.querySelector('input[name="ata-scope-fs"]:checked')?.value || 'file';
+  selectScope(fsScope);
+  if(fsScope === 'custom') {
+    const fsVal = document.getElementById('fs-custom-input')?.value || '';
+    const mainInput = document.getElementById('custom-sel-input');
+    if(mainInput) { mainInput.value = fsVal; }
+  }
+  document.getElementById('ata-fullscreen').classList.remove('show');
+  executeAta();
+}
+
+function renderPreviewPOList() {
+  const currentPO = PO_DATA.find(x => x.id === currentReviewId);
+  const siblings  = PO_DATA.filter(x => x.file === currentPO.file);
+  const list      = document.getElementById('preview-po-list');
+  if(!list) return;
+
+  list.innerHTML = siblings.map(po => `
+    <div class="preview-po-item" id="preview-item-${po.id}" data-seq="${po.seq}" onclick="loadPreviewPO(${po.id})">
+      <span class="seq-b">${po.seq}</span>
+      <span style="flex:1;font-size:12px;">${po.po}</span>
+      <span class="${sbCls(po.status)}" style="font-size:10px;padding:2px 6px;">${po.status}</span>
+    </div>`).join('');
+
+  // Auto-load first PO
+  if(siblings.length > 0) loadPreviewPO(siblings[0].id);
+
+  // Apply highlight based on current selection
+  const fsInput = document.getElementById('fs-custom-input');
+  const mainInput = document.getElementById('custom-sel-input');
+  const fsScope = document.querySelector('input[name="ata-scope-fs"]:checked')?.value;
+  const val = fsInput?.value || mainInput?.value || '';
+  if(fsScope === 'custom' && val) highlightSelectedPOs(val);
+}
+
+function loadPreviewPO(poId) {
+  // Highlight selected item
+  document.querySelectorAll('.preview-po-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('preview-item-' + poId);
+  if(el) el.classList.add('active');
+
+  // Get page range for this PO
+  const range = PO_PAGE_RANGES[poId] || {start:1, end:2};
+
+  // Load PDF with page anchor
+  const iframe = document.getElementById('preview-pdf-iframe');
+  iframe.src = PDF_DATA_URI + '#page=' + range.start;
+}
+
 function goNextSkippedPO() {
   // In demo: just show toast
   showToast('No more affected POs','All affected POs have been reviewed.');
@@ -1777,16 +2042,17 @@ function jumpToPO() {
 }
 
 
+// PDF data (base64 embedded)
+// PO_PDF_MAP loaded from po_files.js
 // Simulated page ranges per PO id
 const PO_PAGE_RANGES = {
-  4: {start:1, end:3},
-  5: {start:4, end:6},
-  6: {start:7, end:8},
-  7: {start:9, end:11},
-  8: {start:12, end:14},
-  9: {start:1, end:2},
-  10: {start:3, end:3},
-  11: {start:4, end:6},
+  4: {start:1, end:1},
+  5: {start:2, end:2},
+  6: {start:3, end:3},
+  7: {start:4, end:4},
+  8: {start:5, end:5},
+  9: {start:1, end:1},
+  10: {start:2, end:2},
 };
 
 function updatePageRange(poId) {
@@ -1795,6 +2061,16 @@ function updatePageRange(poId) {
   const e = document.getElementById('pr-end');
   if(s) s.value = range.start;
   if(e) e.value = range.end;
+  // Also update main PDF viewer
+  const mainIframe = document.getElementById('main-pdf-iframe');
+  if(mainIframe && PO_PDF_MAP[poId]) {
+    mainIframe.src = PO_PDF_MAP[poId] + '#page=1';
+    document.getElementById('pdf-placeholder').style.display='none';
+    mainIframe.style.display='block';
+  }
+  // Update page label
+  const lbl = document.getElementById('pdf-page-label');
+  if(lbl) lbl.textContent = 'Page 1 / ' + (range.end - range.start + 1);
 }
 
 function reExtract() {
