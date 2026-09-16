@@ -397,7 +397,6 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .toast-link { font-size:11px; color:var(--red); font-weight:600; margin-top:3px; display:block; }
 
 </style>
-<script src="po_files.js"></script>
 </head>
 <body>
 
@@ -2064,7 +2063,16 @@ function updatePageRange(poId) {
   // Also update main PDF viewer
   const mainIframe = document.getElementById('main-pdf-iframe');
   if(mainIframe && PO_PDF_MAP[poId]) {
-    mainIframe.src = PO_PDF_MAP[poId] + '#page=1';
+    try {
+      const b64m = PO_PDF_MAP[poId].split(',')[1];
+      const binm = atob(b64m);
+      const bym = new Uint8Array(binm.length);
+      for(let i=0;i<binm.length;i++) bym[i]=binm.charCodeAt(i);
+      const blbm = new Blob([bym],{type:'application/pdf'});
+      mainIframe.src = URL.createObjectURL(blbm) + '#page=1';
+    } catch(e) {
+      mainIframe.src = PO_PDF_MAP[poId] + '#page=1';
+    }
     document.getElementById('pdf-placeholder').style.display='none';
     mainIframe.style.display='block';
   }
