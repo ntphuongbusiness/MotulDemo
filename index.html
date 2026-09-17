@@ -315,8 +315,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .preview-po-item.active { border-color:var(--red); background:#fff5f5; font-weight:600; }
 .preview-po-item .seq-b { background:#ede9fe; color:#6d28d9; font-weight:700; flex-shrink:0; }
 /* Right panel: PDF */
-.ata-fs-right { flex:1; background:#525659; overflow:hidden; }
-.ata-fs-right iframe { width:100%; height:100%; border:none; }
+.ata-fs-right { flex:1; background:#E5E5E5; overflow:hidden; }
 
 .btn-preview-toggle { display:flex; align-items:center; gap:5px; padding:5px 12px; background:#fff; border:1px solid var(--gray-200); border-radius:4px; font-size:12px; font-weight:500; color:var(--gray-600); cursor:pointer; margin-top:8px; }
 .btn-preview-toggle:hover { border-color:var(--gray-400); }
@@ -397,7 +396,6 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
 .toast-link { font-size:11px; color:var(--red); font-weight:600; margin-top:3px; display:block; }
 
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
@@ -580,28 +578,8 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
               <button class="pdf-tool" title="More"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="3.5" cy="7.5" r="1" fill="currentColor"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/><circle cx="11.5" cy="7.5" r="1" fill="currentColor"/></svg></button>
             </div>
             <div class="pdf-content" style="padding:0;">
-              <canvas id="main-pdf-canvas" style="width:100%;background:#fff;display:block;"></canvas>
-              <div class="pdf-page-mock" id="pdf-placeholder">
-                <div class="pl s"></div>
-                <div class="pl t"></div>
-                <div class="pl m"></div>
-                <div style="height:1px;background:#eee;margin:8px 0;"></div>
-                <div class="pl full" style="height:40px;background:#f8f8f8;border-radius:2px;"></div>
-                <div style="margin-top:10px;">
-                  <div class="pt-hdr"><div class="pt-cell" style="background:#ccc;"></div><div class="pt-cell" style="background:#ccc;"></div><div class="pt-cell" style="background:#ccc;"></div><div class="pt-cell" style="background:#ccc;"></div></div>
-                  <div style="display:flex;flex-direction:column;gap:3px;margin-top:3px;">
-                    <div class="pt-row"><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div></div>
-                    <div class="pt-row"><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div></div>
-                    <div class="pt-row"><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div></div>
-                    <div class="pt-row"><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div></div>
-                    <div class="pt-row"><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div></div>
-                    <div class="pt-row"><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div><div class="pt-cell-r"></div></div>
-                  </div>
-                </div>
-                <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;">
-                  <div class="pl m"></div><div class="pl s"></div><div class="pl full"></div><div class="pl t"></div>
-                </div>
-              </div>
+              <div id="main-pdf-canvas" style="width:100%;height:100%;min-height:380px;background:#E5E5E5;display:flex;align-items:center;justify-content:center;"><span style="font-size:13px;color:#999;">PO document will be displayed here</span></div>
+              
             </div>
             <div class="pdf-nav"><button>‹</button><span id="pdf-page-label">Page 1 / 1</span><button>›</button></div>
           </div>
@@ -845,7 +823,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
     </div>
     <!-- Right: PDF viewer -->
     <div class="ata-fs-right">
-      <canvas id="preview-pdf-canvas" style="width:100%;background:#fff;display:block;"></canvas>
+      <div id="preview-pdf-panel" style="height:100%;display:flex;align-items:center;justify-content:center;background:#E5E5E5;"><span id="preview-pdf-content" style="font-size:14px;color:#999;">PO document will be displayed here</span></div>
     </div>
   </div>
 </div>
@@ -925,7 +903,7 @@ body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #F5F5F5; 
         <div class="preview-po-list" id="preview-po-list"></div>
       </div>
       <div class="preview-pdf-frame" id="preview-pdf-frame">
-        <canvas id="preview-pdf-canvas" style="width:100%;background:#fff;display:block;"></canvas>
+        <div id="preview-pdf-panel" style="height:100%;display:flex;align-items:center;justify-content:center;background:#E5E5E5;"><span id="preview-pdf-content" style="font-size:14px;color:#999;">PO document will be displayed here</span></div>
       </div>
     </div>
     </div><!-- /ata-modal-inner -->
@@ -2097,25 +2075,49 @@ function reExtract() {
 }
 
 
-// PDF.js render helper
+// Render PO info card in preview panel
 function renderPdfToCanvas(dataUri, canvasId) {
-  if(typeof pdfjsLib === 'undefined') return;
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  const b64 = dataUri.split(',')[1];
-  const bin = atob(b64);
-  const bytes = new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
-  pdfjsLib.getDocument({data: bytes}).promise.then(pdf => {
-    pdf.getPage(1).then(page => {
-      const canvas = document.getElementById(canvasId);
-      if(!canvas) return;
-      const vp = page.getViewport({scale: canvas.offsetWidth / page.getViewport({scale:1}).width || 1.2});
-      canvas.width  = vp.width;
-      canvas.height = vp.height;
-      page.render({canvasContext: canvas.getContext('2d'), viewport: vp});
-    });
-  }).catch(e => console.warn('PDF render error:', e));
+  // PDF rendering not available in this context — show PO info instead
+}
+
+function renderPOInfoCard(poId) {
+  const po = PO_DATA.find(x => x.id === poId);
+  if(!po) return;
+  const range = PO_PAGE_RANGES[poId] || {start:1,end:1};
+  const items = LINE_ITEMS[poId] || [];
+  const panel = document.getElementById('preview-pdf-content');
+  if(!panel) return;
+  panel.innerHTML = `
+    <div style="background:#F9F9F9;border:1px solid var(--gray-200);border-radius:8px;padding:20px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span class="seq-b" style="background:#ede9fe;color:#6d28d9;font-size:14px;font-weight:700;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${po.seq}</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--gray-800);">${po.po}</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Page ${range.start} of file</div>
+        </div>
+        <span class="${sbCls(po.status)}" style="margin-left:auto;">${po.status}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:3px;">Customer</div><div style="font-size:13px;font-weight:500;">${po.cust}</div></div>
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:3px;">Processing Time</div><div style="font-size:13px;font-weight:500;">${po.pt}</div></div>
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:3px;">File</div><div style="font-size:12px;color:var(--gray-600);">${po.file}</div></div>
+        <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:3px;">Created By</div><div style="font-size:13px;font-weight:500;">${po.by}</div></div>
+      </div>
+    </div>
+    ${items.length > 0 ? `
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-400);margin-bottom:8px;">Line Items (${items.length})</div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      ${items.map(it=>`
+        <div style="background:#fff;border:1px solid var(--gray-200);border-radius:6px;padding:10px 14px;font-size:12px;">
+          <div style="font-weight:600;color:var(--gray-800);margin-bottom:4px;">${it.desc}</div>
+          <div style="display:flex;gap:16px;color:var(--gray-500);">
+            <span>SKU: ${it.sku}</span>
+            <span>Qty: ${it.qty} ${it.unit}</span>
+            <span>Ship-to: ${it.shipto}</span>
+          </div>
+        </div>`).join('')}
+    </div>` : ''}
+  `;
 }
 
 // INIT
